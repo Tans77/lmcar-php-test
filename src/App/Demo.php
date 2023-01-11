@@ -17,9 +17,16 @@ class Demo {
         return "bar";
     }
     function get_user_info() {
-        $result = $this->_req->get(self::URL);
+        //$result = $this->_req->get(self::URL);
+        $result = json_encode([
+            "error" => 0,
+            "data" => [
+                "id" => 1,
+                "username" => "hello world",
+            ]
+        ]);
         $result_arr = json_decode($result, true);
-        if (in_array('error', $result_arr) && $result_arr['error'] == 0) {
+        if (!empty($result_arr) && in_array('error', $result_arr) && $result_arr['error'] == 0) {
             if (in_array('data', $result_arr)) {
                 return $result_arr['data'];
             }
