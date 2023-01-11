@@ -10,6 +10,7 @@ use App\Service\ProductHandler;
  */
 class ProductHandlerTest extends TestCase
 {
+    //原始数据
     private $products = [
         [
             'id' => 1,
@@ -54,15 +55,96 @@ class ProductHandlerTest extends TestCase
             'create_at' => '2021-04-04 19:23:00',
         ],
     ];
+    //需求2结果，用于对比
+    private $sortListRes =[
+        [
+            'id' => 5,
+            'name' => 'New York Cheese Cake',
+            'type' => 'Dessert',
+            'price' => 40,
+            'create_at' => '2021-04-19 14:38:00',
+        ],
+        [
+            'id' => 4,
+            'name' => 'Cup cake',
+            'type' => 'Dessert',
+            'price' => 35,
+            'create_at' => '2021-04-18 08:45:00',
+        ],
+    
+    ];
+    //需求3结果，用于对比
+    private $strToTimeRes =[
+        [
+            'id' => 1,
+            'name' => 'Coca-cola',
+            'type' => 'Drinks',
+            'price' => 10,
+            'create_at' => 1618912800,
+        ],
+        [
+            'id' => 2,
+            'name' => 'Persi',
+            'type' => 'Drinks',
+            'price' => 5,
+            'create_at' => 1618995600,
+        ],
+        [
+            'id' => 3,
+            'name' => 'Ham Sandwich',
+            'type' => 'Sandwich',
+            'price' => 45,
+            'create_at' => 1618945200,
+        ],
+        [
+            'id' => 4,
+            'name' => 'Cup cake',
+            'type' => 'Dessert',
+            'price' => 35,
+            'create_at' => 1618735500,
+        ],
+        [
+            'id' => 5,
+            'name' => 'New York Cheese Cake',
+            'type' => 'Dessert',
+            'price' => 40,
+            'create_at' => 1618843080,
+        ],
+        [
+            'id' => 6,
+            'name' => 'Lemon Tea',
+            'type' => 'Drinks',
+            'price' => 8,
+            'create_at' => 1617564180,
+        ],
+    ];
+    
 
     public function testGetTotalPrice()
     {
-        $totalPrice = 0;
-        foreach ($this->products as $product) {
-            $price = $product['price'] ?: 0;
-            $totalPrice += $price;
-        }
-
+        $productHandler = new ProductHandler();
+        $totalPrice = $productHandler->getTotalPrice($this->products);
         $this->assertEquals(143, $totalPrice);
     }
+    
+    public function testSortAndDessert()
+    {
+        $productHandler = new ProductHandler();
+        $resList = $productHandler->sortAndDessert($this->products);
+        $this->assertEquals($this->sortListRes, $resList);
+    }
+    
+    public function testListStrToTime()
+    {
+        $productHandler = new ProductHandler();
+        $resList = $productHandler->listStrToTime($this->products);
+        $this->assertEquals($this->strToTimeRes, $resList);
+    }
+    
+    
+    
+    
+    
+    
+    
 }
